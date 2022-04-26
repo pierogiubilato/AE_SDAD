@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="top_sim_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="top_sim" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="210.800001 us"></ZoomEndTime>
+      <Cursor1Time time="108.338000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="271"></NameColumnWidth>
+      <ValueColumnWidth column_width="124"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="20" />
+   <wvobject type="divider" fp_name="divider13">
+      <obj_property name="label">Constants</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#A0A0A4</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/seed" type="array">
+      <obj_property name="ElementShortName">seed[31:0]</obj_property>
+      <obj_property name="ObjectShortName">seed[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/C_PI" type="other">
+      <obj_property name="ElementShortName">C_PI</obj_property>
+      <obj_property name="ObjectShortName">C_PI</obj_property>
+      <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider14">
+      <obj_property name="label">Parameters</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#A0A0A4</obj_property>
+   </wvobject>
+   <wvobject fp_name="group17" type="group">
+      <obj_property name="label">Clock</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/top_sim/C_CLK_BRD_FRQ" type="array">
+         <obj_property name="ElementShortName">C_CLK_BRD_FRQ[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_CLK_BRD_FRQ[31:0]</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/top_sim/C_CLK_BRD_JTR" type="array">
+         <obj_property name="ElementShortName">C_CLK_BRD_JTR[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_CLK_BRD_JTR[31:0]</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/top_sim/C_CLK_FRQ" type="array">
+         <obj_property name="ElementShortName">C_CLK_FRQ[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_CLK_FRQ[31:0]</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/top_sim/C_CLK_BRD_PERIOD" type="other">
+         <obj_property name="ElementShortName">C_CLK_BRD_PERIOD</obj_property>
+         <obj_property name="ObjectShortName">C_CLK_BRD_PERIOD</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group148" type="group">
+      <obj_property name="label">Analogue domain</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/top_sim/C_ANA_BITS" type="array">
+         <obj_property name="ElementShortName">C_ANA_BITS[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_ANA_BITS[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/top_sim/C_ANA_CONV" type="other">
+         <obj_property name="ElementShortName">C_ANA_CONV</obj_property>
+         <obj_property name="ObjectShortName">C_ANA_CONV</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group16" type="group">
+      <obj_property name="label">Input Signal</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/top_sim/C_WAV_FRQ" type="other">
+         <obj_property name="ElementShortName">C_WAV_FRQ</obj_property>
+         <obj_property name="ObjectShortName">C_WAV_FRQ</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/top_sim/C_WAV_PHS" type="other">
+         <obj_property name="ElementShortName">C_WAV_PHS</obj_property>
+         <obj_property name="ObjectShortName">C_WAV_PHS</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/top_sim/C_WAV_AMP" type="other">
+         <obj_property name="ElementShortName">C_WAV_AMP</obj_property>
+         <obj_property name="ObjectShortName">C_WAV_AMP</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/top_sim/C_WAV_NOISE" type="other">
+         <obj_property name="ElementShortName">C_WAV_NOISE</obj_property>
+         <obj_property name="ObjectShortName">C_WAV_NOISE</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group55" type="group">
+      <obj_property name="label">Integrator</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/top_sim/C_RC_CAP" type="other">
+         <obj_property name="ElementShortName">C_RC_CAP</obj_property>
+         <obj_property name="ObjectShortName">C_RC_CAP</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/top_sim/C_RC_RES" type="other">
+         <obj_property name="ElementShortName">C_RC_RES</obj_property>
+         <obj_property name="ObjectShortName">C_RC_RES</obj_property>
+         <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider15">
+      <obj_property name="label">Timing</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#A0A0A4</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/rst_b" type="logic">
+      <obj_property name="ElementShortName">rst_b</obj_property>
+      <obj_property name="ObjectShortName">rst_b</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/clkBrd" type="logic">
+      <obj_property name="ElementShortName">clkBrd</obj_property>
+      <obj_property name="ObjectShortName">clkBrd</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider18">
+      <obj_property name="label">Analogue</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#A0A0A4</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/inputVoltageVar" type="other">
+      <obj_property name="ElementShortName">inputVoltageVar</obj_property>
+      <obj_property name="ObjectShortName">inputVoltageVar</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/rcVoltageVar" type="other">
+      <obj_property name="ElementShortName">rcVoltageVar</obj_property>
+      <obj_property name="ObjectShortName">rcVoltageVar</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/compOut" type="logic">
+      <obj_property name="ElementShortName">compOut</obj_property>
+      <obj_property name="ObjectShortName">compOut</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/dsOut" type="logic">
+      <obj_property name="ElementShortName">dsOut</obj_property>
+      <obj_property name="ObjectShortName">dsOut</obj_property>
+      <obj_property name="CustomSignalColor">#0000FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/rcDriveVoltageVar" type="other">
+      <obj_property name="ElementShortName">rcDriveVoltageVar</obj_property>
+      <obj_property name="ObjectShortName">rcDriveVoltageVar</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/inputVoltage" type="array">
+      <obj_property name="ElementShortName">inputVoltage[15:0]</obj_property>
+      <obj_property name="ObjectShortName">inputVoltage[15:0]</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">256</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
+      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
+      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
+      <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
+      <obj_property name="AnalogHorizLine">0.000000</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/rcVoltage" type="array">
+      <obj_property name="ElementShortName">rcVoltage[15:0]</obj_property>
+      <obj_property name="ObjectShortName">rcVoltage[15:0]</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">256</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
+      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
+      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
+      <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
+      <obj_property name="AnalogHorizLine">0.000000</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_sim/dsError" type="array">
+      <obj_property name="ElementShortName">dsError[15:0]</obj_property>
+      <obj_property name="ObjectShortName">dsError[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">256</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_FIXED</obj_property>
+      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
+      <obj_property name="AnalogYRRangeMax">1024.000000</obj_property>
+      <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_LINEAR</obj_property>
+      <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
+      <obj_property name="AnalogHorizLine">0.000000</obj_property>
+   </wvobject>
+</wave_config>
