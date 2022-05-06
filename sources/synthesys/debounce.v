@@ -9,8 +9,28 @@
 \#############################################################################*/
 
 // INFO
-// The debounce module receives a single-bit signal from a mechanical switch or
-// button and samples it to avoid instability.
+// The debounce module receives a single-bit transition from a mechanical switch 
+// or button, and "moves" it only if stable fore more than C_Interval ms, to 
+// avoid spurious signals. I works for either LTH and HTL transisions.
+
+
+// -----------------------------------------------------------------------------
+// --                                PARAMETERS                               --
+// -----------------------------------------------------------------------------
+//
+// C_CLK_FRQ:       frequency of the clock in [cycles per second] {100000000}. 
+// C_INTERVAL:      the time interval the signal must be stable to pass through
+//					and reach the fabric. [ms] {10}.
+
+
+// -----------------------------------------------------------------------------
+// --                                I/O PORTS                                --
+// -----------------------------------------------------------------------------
+//
+// rstb:            INPUT, synchronous reset, ACTIVE LOW. 
+// clk:             INPUT, master clock.
+// in:             	INPUT, the signal from the meachanical switch.
+// out:           	OUTPUT: the signal toward the fabric.
 
 
 // Tool timescale.
@@ -24,15 +44,18 @@ module  debounce # (
 		input rstb,
 		input clk,
 		input in,			// Inputs from switch/button.
-		output reg 	out		// Output to fabric.
+		output reg out		// Output to fabric.
 	);
 
-	 // =========================================================================
+
+	// =========================================================================
     // ==                       Parameters derivation                         ==
     // =========================================================================
 
-    // Get the 1 bit transmission period cycle in terms of main clock cycles.
-    localparam C_CYCLES = C_CLK_FRQ * C_INTERVAL / 1000;
+    // Prepare the counter size so that full counting would take two times the
+	// C_INTERVAL to wait for. By checking the counter MSB, it will be equivalent
+	// to wait for C_INTERVAL time. 
+    localparam C_CYCLES = 2 * C_CLK_FRQ * C_INTERVAL / 1000;
     localparam C_CYCLES_WIDTH = $clog2(C_CYCLES);
    
 
@@ -41,64 +64,67 @@ module  debounce # (
     // =========================================================================
 
 	// Counters.
-	reg  [C_CYCLES_WIDTH - 1 : 0] q_reg;
-	reg  [C_CYCLES_WIDTH - 1 : 0] q_next;
+	reg [C_CYCLES_WIDTH - 1 : 0] rCount;
 	
 	// Input fflops.
 	reg DFF1, DFF2;
 	
 	// Control flags.
-	wire q_add;
-	wire q_reset;
-
+	wire wClear;		// Clear the counter if '=1';		
+	wire wEnable;		// Enable the counter while '=1';
 
 
 	// =========================================================================
     // ==                      Asynchronous assignments                       ==
     // =========================================================================
 
-	//contenious assignment for counter control
-	assign q_reset = (DFF1  ^ DFF2);			// xor input FF to look for level chage to reset counter
-	assign q_add = ~(q_reg[C_CYCLES_WIDTH - 1]);	// add to counter when q_reg msb is equal to 0
+	// XOR of the thwo FF to generate counter reset signal.
+	assign wClear = (DFF1  ^ DFF2);
+	
+	// Enable signal, makes the output FF latch the signal from FF2. Inverted,
+	// it is also used to stop the counter.
+	assign wEnable = (rCount[C_CYCLES_WIDTH - 1]);
 	
 
 	// =========================================================================
     // ==                        Synchronous counters                         ==
     // =========================================================================
 
-	// Combo counter to manage q_next	
-	always @ (q_reset, q_add, q_reg) begin
-		case( {q_reset , q_add} )
-			2'b00 :
-				q_next <= q_reg;
-			2'b01 :
-				q_next <= q_reg + 1;
-			default :
-				q_next <= { C_CYCLES_WIDTH {1'b0} };
-		endcase 	
-	end
-	
-	// Flip flop inputs and q_reg update
+	// Move the input signal through the two FFs, unless reset forces them clear.
 	always @ (posedge clk) begin
+		
+		// Reset everything to initial condition.
 		if (rstb ==  1'b0) begin
 			DFF1 <= 1'b0;
 			DFF2 <= 1'b0;
-			q_reg <= { C_CYCLES_WIDTH {1'b0} };
 		end else begin
 			DFF1 <= in;
 			DFF2 <= DFF1;
-			q_reg <= q_next;
 		end
 	end
-	
-	
+
+	// Increments the counter if the signal is stable
+	always @ (posedge clk) begin
+		
+		// Reset the counter.
+		if (rstb ==  1'b0 || wClear == 1'b1) begin
+			rCount <= { C_CYCLES_WIDTH {1'b0} };
+
+		// Count only when the output is not enabled.
+		end else begin
+			rCount <= (wEnable) ? rCount : rCount + 1;
+		end
+	end
+
+
 	// =========================================================================
     // ==                        Synchronous outputs                          ==
     // =========================================================================
 
-	// Synchronous output.
+	// Synchronous output. Move DFF2 value to the output only when 'wEnable' is
+	// driven high (C_CYCLES clks have been counted).
 	always @ (posedge clk) begin
-		out <= (q_reg[C_CYCLES_WIDTH - 1] == 1'b1) ? DFF2 : out;
+		out <= (wEnable) ? DFF2 : out;
 	end
 
 endmodule

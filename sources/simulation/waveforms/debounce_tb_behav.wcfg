@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="125.083333 us"></ZoomStartTime>
-      <ZoomEndTime time="206.383334 us"></ZoomEndTime>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="96.500001 us"></ZoomEndTime>
       <Cursor1Time time="200.000000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="271"></NameColumnWidth>
-      <ValueColumnWidth column_width="106"></ValueColumnWidth>
+      <ValueColumnWidth column_width="100"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="19" />
    <wvobject type="divider" fp_name="divider91">
@@ -32,10 +32,12 @@
    <wvobject fp_name="/debounce_tb/C_CLK_FRQ" type="array">
       <obj_property name="ElementShortName">C_CLK_FRQ[31:0]</obj_property>
       <obj_property name="ObjectShortName">C_CLK_FRQ[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/debounce_tb/C_CLK_JTR" type="array">
       <obj_property name="ElementShortName">C_CLK_JTR[31:0]</obj_property>
       <obj_property name="ObjectShortName">C_CLK_JTR[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/debounce_tb/C_CLK_PERIOD" type="other">
       <obj_property name="ElementShortName">C_CLK_PERIOD</obj_property>
@@ -70,25 +72,23 @@
    <wvobject fp_name="/debounce_tb/rIn" type="logic">
       <obj_property name="ElementShortName">rIn</obj_property>
       <obj_property name="ObjectShortName">rIn</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/debounce_tb/wOut" type="logic">
       <obj_property name="ElementShortName">wOut</obj_property>
       <obj_property name="ObjectShortName">wOut</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider93">
       <obj_property name="label">DUT</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">#A0A0A4</obj_property>
    </wvobject>
-   <wvobject fp_name="/debounce_tb/DUT/q_reg" type="array">
-      <obj_property name="ElementShortName">q_reg[29:0]</obj_property>
-      <obj_property name="ObjectShortName">q_reg[29:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/debounce_tb/DUT/q_next" type="array">
-      <obj_property name="ElementShortName">q_next[29:0]</obj_property>
-      <obj_property name="ObjectShortName">q_next[29:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <wvobject fp_name="/debounce_tb/DUT/C_CYCLES" type="other">
+      <obj_property name="ElementShortName">C_CYCLES</obj_property>
+      <obj_property name="ObjectShortName">C_CYCLES</obj_property>
    </wvobject>
    <wvobject fp_name="/debounce_tb/DUT/DFF1" type="logic">
       <obj_property name="ElementShortName">DFF1</obj_property>
@@ -98,12 +98,17 @@
       <obj_property name="ElementShortName">DFF2</obj_property>
       <obj_property name="ObjectShortName">DFF2</obj_property>
    </wvobject>
-   <wvobject fp_name="/debounce_tb/DUT/q_add" type="logic">
-      <obj_property name="ElementShortName">q_add</obj_property>
-      <obj_property name="ObjectShortName">q_add</obj_property>
+   <wvobject fp_name="/debounce_tb/DUT/wEnable" type="logic">
+      <obj_property name="ElementShortName">wEnable</obj_property>
+      <obj_property name="ObjectShortName">wEnable</obj_property>
    </wvobject>
-   <wvobject fp_name="/debounce_tb/DUT/q_reset" type="logic">
-      <obj_property name="ElementShortName">q_reset</obj_property>
-      <obj_property name="ObjectShortName">q_reset</obj_property>
+   <wvobject fp_name="/debounce_tb/DUT/wClear" type="logic">
+      <obj_property name="ElementShortName">wClear</obj_property>
+      <obj_property name="ObjectShortName">wClear</obj_property>
+   </wvobject>
+   <wvobject fp_name="/debounce_tb/DUT/rCount" type="array">
+      <obj_property name="ElementShortName">rCount[10:0]</obj_property>
+      <obj_property name="ObjectShortName">rCount[10:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>
