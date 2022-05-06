@@ -12,13 +12,24 @@
 // all the I/O ports used by the FPGA.
 
 
+/*============================================================================*\
+||                                                                            ||
+||                            WARNING: PROTOTYPE!                             ||
+||                                                                            ||
+/*============================================================================*/
 
+`timescale 1 ns / 1 ps
 
-
-
-
-module top () #
-    (
+module top # (
+        
+        // Timing.
+        parameter C_CLK_FREQ = 100000000,
+        
+        // UART properties.
+        parameter C_UART_DATA_WIDTH = 8,
+        parameter C_UART_PARITY = 1,
+        parameter C_UART_STOP = 1
+    ) (
         
         // Timing.
         input sysClk_p,                 // System clock, positive.
@@ -28,29 +39,22 @@ module top () #
         input [3:0] switch,
         input [3:0] button,
         
-        // Standard LEDs output, it is an array of single bits.
-        output reg rLed [0 : 3],   
+        // Standard LEDs outputs.
+        output reg [0 : 3] rLed,   
 
         // RGB LEDs output, it is an array of 4 vectors of 3 bit each.
-        output reg [2:0] rLedRGB [0 : 3],   
-
-        // Pseudo-analogue input.
+        //output reg [2:0] rLedRGB [0 : 3],   
 
 
-        // Pseudo USB connection (reference direction is controller toward FPGA).
-        input TXD,              // Data from the controller toward the FPGA.
-        output RXD,             // Data from the FPGA toward the controller.
-                
-        
-        // Debug.
-        output [0:0] led
+        // UART iterface (reference direction is controller toward FPGA).
+        input UART_Rx,              // Data from the controller toward the FPGA.
+        output UART_Tx              // Data from the FPGA toward the controller.
     );
     
 
     //--------------------------------------------------------------------------
     // I/O buffering
     //--------------------------------------------------------------------------
-
 
     // System clock buffers. The IBUFGDS primitive ensures a clock network is 
     // connected to the buffer output.
@@ -61,13 +65,13 @@ module top () #
     );
     
     // Static
-    reg [24:0] rCount = 0;
-    wire wClk;
-    assign led[0] = rCount[24];
+    //reg [24:0] rCount = 0;
+    //wire wClk;
+    //assign led[0] = rCount[24];
  
     // Simple process
-    always @ (posedge(wClk)) begin
-        rCount <= count + 1;
-    end
+    //always @ (posedge(wClk)) begin
+    //    rCount <= count + 1;
+    //end
 
 endmodule
