@@ -38,7 +38,7 @@
 
 // Behavioural.
 module  debounce # (
-		parameter C_CLK_FRQ = 100000000,  	// Clock frequency [Hz].
+		parameter C_CLK_FRQ = 100_000_000, 	// Clock frequency [Hz].
 		parameter C_INTERVAL = 0.010   		// Wait interval [ms].
 	) (
 		input rstb,

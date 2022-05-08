@@ -39,7 +39,7 @@
 `timescale 1 ns / 1 ps
 
 // Behavioural.
-module  debounce # (
+module  pwm # (
 		parameter C_CLK_FRQ = 100000000,  	// Clock frequency [Hz].
 		parameter C_MIN_PULSE = 1000,       // Minimum pulse width [ns].
         parameter C_LEVEL_WIDTH = 8         // Level range.        

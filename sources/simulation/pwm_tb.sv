@@ -57,7 +57,7 @@ module pwm_tb ();
     // ==========================================================================
 
     // Instantiate the UUT
-    debounce #(
+    pwm #(
         .C_CLK_FRQ(C_CLK_FRQ),
         .C_LEVEL_WIDTH(C_LEVEL_WIDTH)
     ) DUT (
