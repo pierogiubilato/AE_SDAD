@@ -16,33 +16,34 @@
 // --                                PARAMETERS                               --
 // -----------------------------------------------------------------------------
 //
+// Timing
 // C_CLK_FRQ:       frequency of the clock in [cycles per second] {100000000}. 
-// C_TRX_RATE:      transmission bit frequency [BAUD] {1000000}.
 // C_DBC_INTERVAL:  debouncing interval on external "mech" inputs [ms].
+//
+// UART interface
+// C_UART_RATE:     transmission bit frequency [BAUD] {1000000}.
+// C_UART_DATA_WIDTH: transmission word width [bit] {8}.
+// C_UART_PARITY:   transmission parity bit [bit] {0, 1}.
+// C_UART_STOP:     transmission stop bit(s) [bit] {0, 1, 2}.
+
 
 
 // -----------------------------------------------------------------------------
 // --                                I/O PORTS                                --
 // -----------------------------------------------------------------------------
 //
-// rstb:            INPUT, synchronous reset, ACTIVE LOW. Asserting 'rstb' while
-//                  'busy' is high will likely corrupt the communication channel.
-// clk:             INPUT, master clock. Defines the timing of the transmission.
-// ack:             INPUT, ACTIVE HIGH. Tells the module the 'data' port has been
-//                  read and/or the 'error' condition has been acknowledged. The 
-//                  module will not parse further data until the 'ack' is asserted.
-// [7:0] data:      OUTPUT, data byte. The received data byte. It will stay valid
-//                  until 'ack' is asserted. If other arrives before 'ack' is
-//                  asserted, they will be lost and an error will generate.
-//                  available for at All bits must be settled by the 'clk'
-//                  rising edge when 'send' is high, and must remain valid for
-//                  the entire clock cycle.
-// valid:           OUTPUT, indicates when the data on the 'data' port are valid.
-// rx:              INPUT, the bit-line carrying the UART communication.
-// error:           OUTPUT: either a parity error or missed input data. The
-//                  error condition will stop the module from receiving further
-//                  data, until it is cleared through an 'ack' assertion.
+// sysRstb:         INPUT, synchronous reset, ACTIVE LOW.
+// sysClk:          INPUT, master clock. Defines the timing of the transmission.
 //
+// [3:0] sw:        INPUT, connected to the board switches.
+// [3:0] btn:       INPUT, connected to the board push buttons.
+// [3:0] led:       OUTPUT, connected to the board LEDs.
+// [11:0] ledRGB:   INPUT, connected to the board RGB LEDs, grouped by 3 for
+//                  each LED: [11:9] = R,G,B for led 3, [8:6] = R,G,B for led 2,
+//                  [5:3] = R,G,B for led 1, [2:0] = R,G,B for led 0,
+//
+// UART_Rx:         INPUT, the bit-line carrying the UART communication.
+// UART_Tx:         OUTPUT, the bit-line sourcing the UART communication.
 
 
 // -----------------------------------------------------------------------------
@@ -67,9 +68,13 @@ module top # (
         parameter C_DBC_INTERVAL = 10,          // Debouncing interval [ms].              
         
         // UART properties.
-        parameter C_UART_DATA_WIDTH = 8,
-        parameter C_UART_PARITY = 1,
-        parameter C_UART_STOP = 1
+        parameter C_UART_RATE = 1_000_000,      // UART word width.
+        parameter C_UART_DATA_WIDTH = 8,        // UART word width.
+        parameter C_UART_PARITY = 1,            // UART parity bits.
+        parameter C_UART_STOP = 1,              // UART stop bits.
+
+        // Debug registers.
+        parameter C_REG_WIDTH = 4               // Registry data width.
     ) (
         
         // Timing.
@@ -82,14 +87,8 @@ module top # (
         
         // Standard LEDs outputs.
         output [3:0] led,   
-        output [2:0] ledRGB_0,
-        output [2:0] ledRGB_1,
-        output [2:0] ledRGB_2,
-        output [2:0] ledRGB_3,
+        output [11:0] ledRGB,
         
-        // RGB LEDs output, it is an array of 4 vectors of 3 bit each.
-        //output reg [2:0] rLedRGB [0 : 3],   
-
         // UART iterface (reference direction is controller toward FPGA).
         input UART_Rx,              // Data from the controller toward the FPGA.
         output UART_Tx              // Data from the FPGA toward the controller.
@@ -107,7 +106,6 @@ module top # (
     // Wires from the debouncer(s) toward the fabric.
     wire [3:0] wSw;     // Switches.
     wire [3:0] wBtn;    // Push buttons.
-    
         
     
     // =========================================================================
@@ -135,7 +133,7 @@ module top # (
     //    .in(sysRstb),
     //    .out(wSysRst)
     //);
-    assign wSysRstb = sysRstb;
+    assign wSysRstb = 1'b1; // sysRstb;
  
     
     // Buttons.
@@ -170,18 +168,71 @@ module top # (
     
     
     // =========================================================================
-    // ==                              Routing                                ==
+    // ==                          UART interface                             ==
     // =========================================================================
     
+    // UART Rx.
+    UART_Rx #(
+        .C_CLK_FRQ(C_SYSCLK_FRQ),
+        .C_UART_RATE(C_UART_RATE),
+        .C_UART_DATA_WIDTH(C_UART_DATA_WIDTH),
+        .C_UART_PARITY(C_UART_PARITY),
+        .C_UART_STOP(C_UART_STOP)
+    ) URx (
+        .rstb(wSysRstb),
+        .clk(sysClk),
+        .ack(),
+        .data(),
+        .valid(),
+        .error(),
+        .rx(UART_Rx)
+    );    
+
+    // UART Tx.
+    UART_Tx #(
+        .C_CLK_FRQ(C_SYSCLK_FRQ),
+        .C_UART_RATE(C_UART_RATE),
+        .C_UART_DATA_WIDTH(C_UART_DATA_WIDTH),
+        .C_UART_PARITY(C_UART_PARITY),
+        .C_UART_STOP(C_UART_STOP)
+    ) UTx (
+        .rstb(wSysRstb),
+        .clk(sysClk),
+        .send(),
+        .data(),
+        .error(),
+        .tx(UART_Tx)
+    );    
+
     
+    // =========================================================================
+    // ==                          DEBUG Registry                             ==
+    // =========================================================================
+    
+    registry #(
+            .C_UART_DATA_WIDTH(C_UART_DATA_WIDTH),
+            .C_REG_WIDTH(C_REG_WIDTH)
+        ) DUT_Tx (
+            .rstb(rRstb),
+            .clk(rClk),
+            .data(),
+            .valid(),
+            .ack(),
+            .register()
+    );
+    
+
+    // =========================================================================
+    // ==                              Routing                                ==
+    // =========================================================================
     
     assign led[1] = wBtn[1];
     assign led[2] = wBtn[2];
     assign led[3] = wBtn[3];
     
-    assign ledRGB_0[0] = wSw[0];
-    assign ledRGB_0[1] = wSw[1];
-    assign ledRGB_0[2] = wSw[2];
+    assign ledRGB[0] = wSw[0];
+    assign ledRGB[1] = wSw[1];
+    assign ledRGB[2] = wSw[2];
     
     // Static
     reg [23:0] rCount = 0;

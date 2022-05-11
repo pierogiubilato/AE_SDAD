@@ -18,8 +18,10 @@
 // -----------------------------------------------------------------------------
 //
 // C_CLK_FRQ:       frequency of the clock in [cycles per second] {100000000}. 
-// C_TRX_RATE:      transmission bit frequency [BAUD] {1000000}.
-//
+// C_UART_RATE:     transmission bit frequency [BAUD] {1000000}.
+// C_UART_DATA_WIDTH: transmission word width [bit] {8}.
+// C_UART_PARITY:   transmission parity bit [bit] {0, 1}.
+// C_UART_STOP:     transmission stop bit(s) [bit] {0, 1, 2}.
 
 
 // -----------------------------------------------------------------------------
@@ -32,7 +34,7 @@
 // ack:             INPUT, ACTIVE HIGH. Tells the module the 'data' port has been
 //                  read and/or the 'error' condition has been acknowledged. The 
 //                  module will not parse further data until the 'ack' is asserted.
-// [7:0] data:      OUTPUT, data byte. The received data byte. It will stay valid
+// [x:0] data:      OUTPUT, data byte. The received data byte. It will stay valid
 //                  until 'ack' is asserted. If other arrives before 'ack' is
 //                  asserted, they will be lost and an error will generate.
 //                  available for at All bits must be settled by the 'clk'
@@ -55,8 +57,8 @@
 
 // Behavioural.
 module UART_Rx # (
-        parameter C_CLK_FRQ = 100000000,    // Input clock frequency.
-        parameter C_UART_RATE = 1000000,    // Transmission BAUD rate.
+        parameter C_CLK_FRQ = 100_000_000,  // Input clock frequency.
+        parameter C_UART_RATE = 1_000_000,  // Transmission BAUD rate.
         parameter C_UART_DATA_WIDTH = 8,    // Transmission word size.
         parameter C_UART_PARITY = 1,        // Transmisison check for parity.
         parameter C_UART_STOP = 1           // Transmisison stop bits.

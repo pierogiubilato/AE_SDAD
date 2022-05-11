@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="registry_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="registry_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="534.501 ns"></ZoomEndTime>
+      <Cursor1Time time="346.500 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="271"></NameColumnWidth>
+      <ValueColumnWidth column_width="92"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="26" />
+   <wvobject type="divider" fp_name="divider131">
+      <obj_property name="label">Parameters</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#A0A0A4</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/seed" type="array">
+      <obj_property name="ElementShortName">seed[31:0]</obj_property>
+      <obj_property name="ObjectShortName">seed[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/C_CLK_FRQ" type="array">
+      <obj_property name="ElementShortName">C_CLK_FRQ[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_CLK_FRQ[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/C_CLK_JTR" type="array">
+      <obj_property name="ElementShortName">C_CLK_JTR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_CLK_JTR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/C_CLK_PERIOD" type="other">
+      <obj_property name="ElementShortName">C_CLK_PERIOD</obj_property>
+      <obj_property name="ObjectShortName">C_CLK_PERIOD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/C_UART_DATA_WIDTH" type="array">
+      <obj_property name="ElementShortName">C_UART_DATA_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_UART_DATA_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/C_REG_WIDTH" type="array">
+      <obj_property name="ElementShortName">C_REG_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_REG_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/C_REG_COUNT_WIDTH" type="array">
+      <obj_property name="ElementShortName">C_REG_COUNT_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_REG_COUNT_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/C_REG_COUNT" type="array">
+      <obj_property name="ElementShortName">C_REG_COUNT[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_REG_COUNT[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/C_REG_PORT_WIDTH" type="array">
+      <obj_property name="ElementShortName">C_REG_PORT_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_REG_PORT_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider130">
+      <obj_property name="label">Timing</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#A0A0A4</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/rRstb" type="logic">
+      <obj_property name="ElementShortName">rRstb</obj_property>
+      <obj_property name="ObjectShortName">rRstb</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/rClk" type="logic">
+      <obj_property name="ElementShortName">rClk</obj_property>
+      <obj_property name="ObjectShortName">rClk</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider130">
+      <obj_property name="label">Stimuli</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#A0A0A4</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/rData" type="array">
+      <obj_property name="ElementShortName">rData[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rData[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/wAdd" type="array">
+      <obj_property name="ElementShortName">wAdd[3:0]</obj_property>
+      <obj_property name="ObjectShortName">wAdd[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/wDta" type="array">
+      <obj_property name="ElementShortName">wDta[5:0]</obj_property>
+      <obj_property name="ObjectShortName">wDta[5:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/rValid" type="logic">
+      <obj_property name="ElementShortName">rValid</obj_property>
+      <obj_property name="ObjectShortName">rValid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/wAck" type="logic">
+      <obj_property name="ElementShortName">wAck</obj_property>
+      <obj_property name="ObjectShortName">wAck</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/wRegPort" type="array">
+      <obj_property name="ElementShortName">wRegPort[39:0]</obj_property>
+      <obj_property name="ObjectShortName">wRegPort[39:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/wRegister" type="array">
+      <obj_property name="ElementShortName">wRegister[7:0][4:0]</obj_property>
+      <obj_property name="ObjectShortName">wRegister[7:0][4:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/registry_tb/wRegister[7]" type="array">
+         <obj_property name="ElementShortName">[7][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/wRegister[6]" type="array">
+         <obj_property name="ElementShortName">[6][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/wRegister[5]" type="array">
+         <obj_property name="ElementShortName">[5][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/wRegister[4]" type="array">
+         <obj_property name="ElementShortName">[4][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/wRegister[3]" type="array">
+         <obj_property name="ElementShortName">[3][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/wRegister[2]" type="array">
+         <obj_property name="ElementShortName">[2][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/wRegister[1]" type="array">
+         <obj_property name="ElementShortName">[1][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/wRegister[0]" type="array">
+         <obj_property name="ElementShortName">[0][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider130">
+      <obj_property name="label">DUT</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#A0A0A4</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/DUT/rState" type="array">
+      <obj_property name="ElementShortName">rState[1:0]</obj_property>
+      <obj_property name="ObjectShortName">rState[1:0]</obj_property>
+      <obj_property name="CustomSignalColor">#D2691E</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/DUT/rNext" type="array">
+      <obj_property name="ElementShortName">rNext[1:0]</obj_property>
+      <obj_property name="ObjectShortName">rNext[1:0]</obj_property>
+      <obj_property name="CustomSignalColor">#D2691E</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/DUT/register" type="array">
+      <obj_property name="ElementShortName">register[39:0]</obj_property>
+      <obj_property name="ObjectShortName">register[39:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/registry_tb/DUT/rRegister" type="array">
+      <obj_property name="ElementShortName">rRegister[7:0][4:0]</obj_property>
+      <obj_property name="ObjectShortName">rRegister[7:0][4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/registry_tb/DUT/rRegister[7]" type="array">
+         <obj_property name="ElementShortName">[7][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/DUT/rRegister[6]" type="array">
+         <obj_property name="ElementShortName">[6][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/DUT/rRegister[5]" type="array">
+         <obj_property name="ElementShortName">[5][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/DUT/rRegister[4]" type="array">
+         <obj_property name="ElementShortName">[4][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/DUT/rRegister[3]" type="array">
+         <obj_property name="ElementShortName">[3][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/DUT/rRegister[2]" type="array">
+         <obj_property name="ElementShortName">[2][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/DUT/rRegister[1]" type="array">
+         <obj_property name="ElementShortName">[1][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/registry_tb/DUT/rRegister[0]" type="array">
+         <obj_property name="ElementShortName">[0][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][4:0]</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

@@ -18,8 +18,10 @@
 // -----------------------------------------------------------------------------
 //
 // C_CLK_FRQ:       frequency of the clock in [cycles per second] {100000000}. 
-// C_TRX_RATE:      transmission bit frequency [BAUD] {1000000}.
-//
+// C_UART_RATE:     transmission bit frequency [BAUD] {1000000}.
+// C_UART_DATA_WIDTH: transmission word width [bit] {8}.
+// C_UART_PARITY:   transmission parity bit [bit] {0, 1}.
+// C_UART_STOP:     transmission stop bit(s) [bit] {0, 1, 2}.
 
 
 // -----------------------------------------------------------------------------
@@ -31,7 +33,7 @@
 // clk:             INPUT, master clock. Defines the timing of the transmission.
 // send:            INPUT, ACTIVE HIGH. Starts a byte transmission when HIGH at
 //                  the 'clk' rising edge. Assert it ONLY when 'busy' is low.
-// [7:0] data:      INPUT, data byte. All bits must be settled by the 'clk'
+// [x:0] data:      INPUT, data byte. All bits must be settled by the 'clk'
 //                  rising edge when 'send' is high, and must remain valid for
 //                  the entire clock cycle.
 // busy:            OUTPUT, indicates when the 'send' signal cannot be asserted.
@@ -52,8 +54,8 @@
 
 // Behavioural.
 module UART_Tx # (
-        parameter C_CLK_FRQ = 100000000,    // Input clock frequency.
-        parameter C_UART_RATE = 1000000,    // Transmission BAUD rate.
+        parameter C_CLK_FRQ = 100_000_000,  // Input clock frequency.
+        parameter C_UART_RATE = 1_000_000,  // Transmission BAUD rate.
         parameter C_UART_DATA_WIDTH = 8,    // Transmission word size.
         parameter C_UART_PARITY = 1,        // Transmisison check for parity.
         parameter C_UART_STOP = 1           // Transmisison stop bits.
