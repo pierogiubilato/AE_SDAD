@@ -141,7 +141,7 @@ module UART_Rx # (
     end
 
     // SM next state logic.
-    always @(rState, rx, posedge ack, rCycles, rBits) begin
+    always @(rState, rx, ack, rCycles, rBits) begin
 
         // Failsafe assignment (no state change).
         rNext <= rState;
