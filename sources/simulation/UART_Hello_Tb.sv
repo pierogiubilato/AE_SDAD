@@ -13,7 +13,7 @@
 `timescale 1ns / 1ps
 
 // Testbench.
-module UART_tb();
+module UART_Hello_tb();
     
     // ==========================================================================
     // ==                               Parameters                             ==
@@ -31,6 +31,9 @@ module UART_tb();
     parameter C_UART_PARITY     = 0;            // UART parity bit, {0,1}.
     localparam real C_UART_PERIOD = 1E9 / C_UART_RATE;  // UART clock period [ns].
 
+    // Hello message.
+    parameter C_MSG = "12345";
+    parameter C_MSG_LEN = 5;
 
 
     // ==========================================================================
@@ -50,45 +53,26 @@ module UART_tb();
     reg rClk;                   // Clock.
     reg rUART_Clk;              // UART Clock.
     
-    // Wire from the Tx DUT.
+    // IOS to/from the Tx DUT.
+    wire wTxSend;               // Tx Send trigger.    
+    wire wTxBusy;               // Tx busy flag.
+    wire [C_UART_DATA_WIDTH - 1 : 0] wTxData; // Data to the Tx module.
+    wire wTxErr;                // Tx error line.
     wire wTxRx;                 // Output serial line from the DUT.       
-    wire wTxBusy;               // DUTY busy flag.
-    wire wTxErr;                // DUT error line.
-                   
-    // Wire from the 2nd Tx DUT.
-    wire wTx2;                  // Output serial line from the DUT.       
-    wire wTx2Busy;              // DUTY busy flag.
-    wire wTx2Err;               // DUT error line.
     
-    // Wire from the Rx DUT.
+    // IOs to/from the Hello DUT.
+    reg rHelloSend;             // Trigger to the HEllo module.
+    wire wHelloBusy;            // Busy from the Hello module.
+    
+    // IOs to/from the Rx DUT.
     wire wRxValid;              // DUTY busy flag.
-    wire wRxErr;                // DUT error line.
-    
-    // Registers to the Tx DUT.
-    reg [C_UART_DATA_WIDTH - 1 : 0] rTxData; // Data word input to the Tx DUT.
-    reg rTxSend;                // trigger send signal to the DUT.
-
-    // Registers to the Rx DUT.
-    wire [C_UART_DATA_WIDTH - 1 : 0] wRxData; // Data word output from the Rx DUT.
     reg rRxAck;                 // trigger send signal to the DUT.
+    wire [C_UART_DATA_WIDTH - 1 : 0] wRxData; // Data word output from the Rx DUT.
+    wire wRxErr;                // DUT error line.
     reg [C_UART_DATA_WIDTH - 1 : 0] rRxData;    // Acquired rx data.
     
-    // Wires and register from the mirror toward the UART modules.
-    wire wMirSend;
-    wire wMirAck;
-    wire wMirBusy;
-    wire wMirValid;
-    wire wMirErrTx;
-    wire wMirErrRx;
-    wire [C_UART_DATA_WIDTH - 1 : 0] wMirDataIn;
-    wire [C_UART_DATA_WIDTH - 1 : 0] wMirDataOut;
-    
-    
-    
-    
-    
-    
-    
+   
+   
     // ==========================================================================
     // ==                                 DUTs                                 ==
     // ==========================================================================
@@ -100,18 +84,15 @@ module UART_tb();
         .C_UART_DATA_WIDTH(C_UART_DATA_WIDTH),
         .C_UART_PARITY(C_UART_PARITY),
         .C_UART_STOP(C_UART_STOP) 
-    ) DUT_Tx0 (
+    ) DUT_Tx (
         .rstb(rRstb),
         .clk(rClk),
-        .data(rTxData),
-        .send(rTxSend),
         .busy(wTxBusy),
+        .send(wTxSend),
+        .data(wTxData),
         .error(wTxErr),
         .tx(wTxRx)
     );
-    
-    // The following modules are the two within the FPGA.
-    
     
     // Instantiate the UART_Rx module.
     UART_Rx #(
@@ -123,60 +104,32 @@ module UART_tb();
     ) DUT_Rx (
         .rstb(rRstb),
         .clk(rClk),
-        .data(wMirDataIn),
-        .valid(wMirValid),
-        .ack(wMirAck),
-        .error(wMirErrRx),
+        .data(wRxData),
+        .valid(wRxValid),
+        .ack(rRxAck),
+        .error(wRxErr),
         .rx(wTxRx)
     );
     
-    // Instantiate the 2nd UART_Tx module.
-    UART_Tx #(
-        .C_CLK_FRQ(C_CLK_FRQ),
-        .C_UART_RATE(C_UART_RATE),
+    // Instantiate the Hello module.
+    UART_Hello #(
         .C_UART_DATA_WIDTH(C_UART_DATA_WIDTH),
-        .C_UART_PARITY(C_UART_PARITY),
-        .C_UART_STOP(C_UART_STOP) 
-    ) DUT_Tx2 (
-        .rstb(rRstb),
-        .clk(rClk),
-        .data(wMirDataOut),
-        .send(wMirSend),
-        .busy(wMirBusy),
-        .error(wMirErrTx),
-        .tx(wTx2)
-    );
-    
-    
-    // Instantiate the MIRROR module.
-    UART_Mirror #(
-        .C_UART_DATA_WIDTH(C_UART_DATA_WIDTH)
-    ) DUT_Mirror (
+        .C_MSG(C_MSG),
+        .C_MSG_LEN(C_MSG_LEN)
+    ) DUT_Hello (
         .rstb(rRstb),
         .clk(rClk),
         .enable(1'b1),
         
-        // IOs (passive) of the UART_Rx IOs.
-        .rxData(wRxData),
-        .rxValid(wRxValid),
-        .rxAck(rRxAck),
-        .rxErr(wRxErr),
+        // IOs control.
+        .send(rHelloSend),
+        .busy(wHelloBusy),
         
-        // IOs (passive) of the UART_Tx IOs
-        .txData(),
-        .txSend(),
-        .txBusy(),
-        .txErr(wTx2Err),
-        
-        // IOs toward the UART_Tx, UART_Rx modules.
-        .busy(wMirBusy),
-        .valid(wMirValid),
-        .dataIn(wMirDataIn),
-        .dataOut(wMirDataOut),
-        .ack(wMirAck),
-        .send(wMirSend),
-        .errTx(wMirErrTx),
-        .errRx(wMirErrRx)
+        // IOs to/from Tx module.
+        .txBusy(wTxBusy),
+        .txSend(wTxSend),
+        .txData(wTxData),
+        .txErr(wTxErr)
     );        
     
     
@@ -191,7 +144,7 @@ module UART_tb();
         rRstb = 1'b1;
         rClk = 1'b0; 
         rUART_Clk = 1'b0; 
-        rTxSend = 1'b0;
+        rHelloSend = 1'b0;
         rRxAck = 1'b0;
              
         // Generate first reset.
@@ -219,7 +172,7 @@ module UART_tb();
     // ==                           UART Tx Stimuli                            ==
     // ==========================================================================
         
-    // Data sender process feeding the UART_Tx DUT
+    // Data sender process triggering the UART_Hello DUT.
     always begin
         
         // Wait a random amount of time.
@@ -227,30 +180,28 @@ module UART_tb();
         #($dist_normal(seed, 10 * C_UART_PERIOD, 2 * C_UART_PERIOD));
                 
         // Check if the DUT is free, in case send data.
-        if (wTxBusy == 1'b0) begin
+        if (wHelloBusy == 1'b0) begin
             
             // Wait for a clock to occur.
             @(posedge rClk);
             
-            // Set data and send flag.
-            rTxData <= $urandom_range(0, 255);
-            #1 rTxSend <= 1'b1;
+            // Trigger the send flag.
+            #1 rHelloSend <= 1'b1;
         
             // Wait for the busy flag to rise
-            wait(wTxBusy == 1'b1);
+            wait(wHelloBusy == 1'b1);
             @(posedge rClk);
-            #1 rTxSend <= 1'b0;
+            #1 rHelloSend <= 1'b0;
         end
     end
-   
-   
+      
    
     // ==========================================================================
     // ==                           UART Rx Stimuli                            ==
     // ==========================================================================
 
     // Data retriever process interrogating the UART_Rx DUT
-    always@ (wRxValid) begin
+    always@ (wRxValid, rClk) begin
         
         // Check if the DUT has valid data, read them.
         if (wRxValid == 1'b1) begin

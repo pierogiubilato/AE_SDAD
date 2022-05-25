@@ -168,7 +168,7 @@ module UART_Rx # (
             // Sample the input 'rx' line value. Verify the number of loaded bits, 
             // then stop reading if the stop bit has been reached.
             sSAMPLE: begin
-                rNext <= (rBits >= C_PACKET_SIZE) ? sVERIFY : sWAITF;
+                rNext <= (rBits < C_PACKET_SIZE - 1) ? sWAITF : sVERIFY;
             end
 
             // Data received. Assert the ready valid and check the parity.
@@ -176,9 +176,14 @@ module UART_Rx # (
                 rNext <= (rParityErr == 0) ? sVALID : sERROR;
             end
 
-            // Data received. Assert the ready valid and check the parity.
+            // Data validated. Wait for the ack, raise an error if a new
+            // char reception starts before the ack has been asserted.
             sVALID: begin
-                rNext <= (ack) ? sIDLE : sVALID;
+                if (rx == 1'b0) begin
+                    rNext <= sERROR;                                    
+                end else begin
+                    rNext <= (ack) ? sIDLE : sVALID;
+                end
             end
 
             // Error.
@@ -201,9 +206,8 @@ module UART_Rx # (
         rCycles <= (rState == sWAITH || rState == sWAITF) ? rCycles + 1 : 0;
     
         // UART bit counter. Count the number of bits received through the line.
-        // Note that the counter starts at '1' instead of '0' to streamline coding.
         if (rState == sSAMPLE) rBits <= rBits + 1;
-        else if (rState == sIDLE) rBits <= {{(C_PACKET_SIZE_WIDTH - 1){1'b0}}, 1'b1};
+        else if (rState == sIDLE) rBits <= {(C_PACKET_SIZE_WIDTH - 1){1'b0}};  //{{(C_PACKET_SIZE_WIDTH - 1){1'b0}}, 1'b1};
         else rBits <= rBits;
     end
 
@@ -224,6 +228,12 @@ module UART_Rx # (
                 if (rState == sVERIFY) begin
                     rParityErr <= wParity ^ (rPacket[C_UART_STOP]);
                 end
+            
+                // Check that no further data are arriving while waiting for the
+                // the acknowledgment flag. Otherwise, raise an error.
+                if (rState == sVALID) begin
+                    rParityErr <= wParity ^ (rPacket[C_UART_STOP]);
+                end
             end
         end
     endgenerate
@@ -238,7 +248,7 @@ module UART_Rx # (
         
         // Packet sampling. Note that the indexing exploits the fact the 'rBits'
         // conter starts on purpose at '1'.
-        rPacket[C_PACKET_SIZE - rBits] <= (rState == sSAMPLE) ? rx : rPacket[C_PACKET_SIZE - rBits];
+        rPacket[rBits] <= (rState == sSAMPLE) ? rx : rPacket[rBits];
         
         // Data word.
         data <= (rState == sSAMPLE) ? rPacket[C_PACKET_SIZE - 1 : C_PACKET_SIZE - 1 - C_UART_DATA_WIDTH] : data;

@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="71.450001 us"></ZoomEndTime>
-      <Cursor1Time time="200.000000 us"></Cursor1Time>
+      <ZoomEndTime time="66.100001 us"></ZoomEndTime>
+      <Cursor1Time time="1,000.000000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="200"></NameColumnWidth>
-      <ValueColumnWidth column_width="165"></ValueColumnWidth>
+      <ValueColumnWidth column_width="149"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="42" />
+   <WVObjectSize size="55" />
    <wvobject type="divider" fp_name="divider67">
       <obj_property name="label">Timing Parameters</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -151,6 +151,55 @@
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider64">
+      <obj_property name="label">Mirror</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#808080</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wMirValid" type="logic">
+      <obj_property name="ElementShortName">wMirValid</obj_property>
+      <obj_property name="ObjectShortName">wMirValid</obj_property>
+      <obj_property name="CustomSignalColor">#F0E68C</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wMirAck" type="logic">
+      <obj_property name="ElementShortName">wMirAck</obj_property>
+      <obj_property name="ObjectShortName">wMirAck</obj_property>
+      <obj_property name="CustomSignalColor">#F0E68C</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wMirBusy" type="logic">
+      <obj_property name="ElementShortName">wMirBusy</obj_property>
+      <obj_property name="ObjectShortName">wMirBusy</obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wMirSend" type="logic">
+      <obj_property name="ElementShortName">wMirSend</obj_property>
+      <obj_property name="ObjectShortName">wMirSend</obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wMirErrTx" type="logic">
+      <obj_property name="ElementShortName">wMirErrTx</obj_property>
+      <obj_property name="ObjectShortName">wMirErrTx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wMirErrRx" type="logic">
+      <obj_property name="ElementShortName">wMirErrRx</obj_property>
+      <obj_property name="ObjectShortName">wMirErrRx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wMirDataIn" type="array">
+      <obj_property name="ElementShortName">wMirDataIn[7:0]</obj_property>
+      <obj_property name="ObjectShortName">wMirDataIn[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wMirDataOut" type="array">
+      <obj_property name="ElementShortName">wMirDataOut[7:0]</obj_property>
+      <obj_property name="ObjectShortName">wMirDataOut[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider64">
       <obj_property name="label">Rx Stimuli</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">#808080</obj_property>
@@ -182,44 +231,31 @@
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
+   <wvobject type="divider" fp_name="divider64">
+      <obj_property name="label">Mirroring</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#808080</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wTx2" type="logic">
+      <obj_property name="ElementShortName">wTx2</obj_property>
+      <obj_property name="ObjectShortName">wTx2</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wTx2Busy" type="logic">
+      <obj_property name="ElementShortName">wTx2Busy</obj_property>
+      <obj_property name="ObjectShortName">wTx2Busy</obj_property>
+      <obj_property name="CustomSignalColor">#0000A0</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/wTx2Err" type="logic">
+      <obj_property name="ElementShortName">wTx2Err</obj_property>
+      <obj_property name="ObjectShortName">wTx2Err</obj_property>
+   </wvobject>
    <wvobject type="divider" fp_name="divider65">
       <obj_property name="label">DUT Tx</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">#808080</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_tb/DUT_Tx/rState" type="array">
-      <obj_property name="ElementShortName">rState[1:0]</obj_property>
-      <obj_property name="ObjectShortName">rState[1:0]</obj_property>
-      <obj_property name="CustomSignalColor">#008080</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_tb/DUT_Tx/wPacket" type="array">
-      <obj_property name="ElementShortName">wPacket[9:0]</obj_property>
-      <obj_property name="ObjectShortName">wPacket[9:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
-      <obj_property name="CustomSignalColor">#808000</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_tb/DUT_Tx/rPacket" type="array">
-      <obj_property name="ElementShortName">rPacket[9:0]</obj_property>
-      <obj_property name="ObjectShortName">rPacket[9:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
-      <obj_property name="CustomSignalColor">#808000</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_tb/DUT_Tx/wParity" type="logic">
-      <obj_property name="ElementShortName">wParity</obj_property>
-      <obj_property name="ObjectShortName">wParity</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_tb/DUT_Tx/rCycles" type="array">
-      <obj_property name="ElementShortName">rCycles[6:0]</obj_property>
-      <obj_property name="ObjectShortName">rCycles[6:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_tb/DUT_Tx/rBits" type="array">
-      <obj_property name="ElementShortName">rBits[3:0]</obj_property>
-      <obj_property name="ObjectShortName">rBits[3:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider66">
       <obj_property name="label">DUT Rx</obj_property>
@@ -232,12 +268,22 @@
       <obj_property name="CustomSignalColor">#008080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject fp_name="/UART_tb/DUT_Rx/rNext" type="array">
+      <obj_property name="ElementShortName">rNext[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rNext[2:0]</obj_property>
+      <obj_property name="CustomSignalColor">#A0A0A4</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject fp_name="/UART_tb/DUT_Rx/rPacket" type="array">
       <obj_property name="ElementShortName">rPacket[9:0]</obj_property>
       <obj_property name="ObjectShortName">rPacket[9:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
       <obj_property name="CustomSignalColor">#FFD700</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/DUT_Rx/valid" type="logic">
+      <obj_property name="ElementShortName">valid</obj_property>
+      <obj_property name="ObjectShortName">valid</obj_property>
    </wvobject>
    <wvobject fp_name="/UART_tb/DUT_Rx/wParity" type="logic">
       <obj_property name="ElementShortName">wParity</obj_property>
@@ -260,5 +306,27 @@
       <obj_property name="ElementShortName">rBits[3:0]</obj_property>
       <obj_property name="ObjectShortName">rBits[3:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/DUT_Rx/rx" type="logic">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/UART_tb/DUT_Rx/error" type="logic">
+      <obj_property name="ElementShortName">error</obj_property>
+      <obj_property name="ObjectShortName">error</obj_property>
+      <obj_property name="CustomSignalColor">#A52A2A</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider65">
+      <obj_property name="label">DUT Tx2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#808080</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider64">
+      <obj_property name="label">Rx Stimuli</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#808080</obj_property>
    </wvobject>
 </wave_config>

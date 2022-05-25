@@ -106,6 +106,7 @@ module UART_Tx # (
     
     // Packet, parity and stop.
     wire [C_PACKET_SIZE - 1 : 0] wPacket;       // Whole data packet
+    wire [C_UART_DATA_WIDTH - 1 : 0] wData;     // Data word, bit-reversed.
     wire wParity;                               // Parity value.
         
     
@@ -113,6 +114,14 @@ module UART_Tx # (
     // ==                      Asynchronous assignments                       ==
     // =========================================================================
 
+    // Reverse the bit order of the data word, so to mach serial standard which
+    // uses LSB at the beginning of the vector.
+    generate 
+        for (genvar i = 0; i < C_UART_DATA_WIDTH; i = i + 1) begin
+            assign wData[i] = data[C_UART_DATA_WIDTH - 1 - i];
+        end
+    endgenerate
+        
     // This assignment generates thewhole packet to be sent (start, data, parity,
     // stop), depending on the parity parameter value.
     generate
@@ -123,14 +132,14 @@ module UART_Tx # (
             // This asignment calculates the parity of the data word.
             assign wParity = ^data[C_UART_DATA_WIDTH - 1 : 0];
 
-            // Build the whole packet including parity.
-            assign wPacket = {1'b0, data, wParity, {C_UART_STOP{1'b1}}};
+            // Build the whole packet including parity. Note that the busy
+            assign wPacket = {1'b0, wData, wParity, {C_UART_STOP{1'b1}}};
         
         // Code NOT using parity.
         end else begin
             
             // Build the whole packet WITHOUT considering parity.
-            assign wPacket = {1'b0, data, {C_UART_STOP{1'b1}}};
+            assign wPacket = {1'b0, wData, {C_UART_STOP{1'b1}}};
         end
     endgenerate
 
@@ -175,7 +184,7 @@ module UART_Tx # (
 
             // Send the bit. Verify the number of loaded bits, stop in case.
             sSEND: begin
-                if (rBits >= C_PACKET_SIZE) rNext <= sIDLE;
+                if (rBits >= C_PACKET_SIZE - 1) rNext <= sIDLE;
                 else rNext <= sWAIT;
             end
 
@@ -195,13 +204,14 @@ module UART_Tx # (
         
         // UART bit period counter. Count the main clock cycles necessary to
         // account for one transmission cycle.
-        rCycles <= (rState == sWAIT) ? rCycles + 1 : { {(C_PERIOD_WIDTH - 1){1'b0}}, 1'b1};;
+        rCycles <= (rState == sWAIT) ? rCycles + 1 : { {(C_PERIOD_WIDTH - 1){1'b0}}, 1'b1};
             
         // UART bit counter. Count the number of bit sent through the line.
         if (rState == sSEND) rBits <= rBits + 1;
         else if (rState == sWAIT) rBits <= rBits;
-        else  rBits <= {{(C_PACKET_SIZE_WIDTH - 1){1'b0}}, 1'b1};
+        else  rBits <= {(C_PACKET_SIZE_WIDTH){1'b0}};
     end
+
 
     // =========================================================================
     // ==                        Synchronous inputs                           ==
@@ -224,7 +234,9 @@ module UART_Tx # (
         busy <= (rState == sIDLE) ? 1'b0 : 1'b1;        
     
         // Transmission line. Outputs the current bit from the packet.
-        tx <=  (rState == sWAIT || rState == sSEND) ? rPacket[C_PACKET_SIZE - rBits] : 1'b1;
+        if (rState == sSEND || rState == sWAIT) tx <= rPacket[C_PACKET_SIZE - 1 - rBits];
+        //else if (rState == sWAIT) tx <= tx;   
+        else tx <= 1'b1;
     end
 
 endmodule
