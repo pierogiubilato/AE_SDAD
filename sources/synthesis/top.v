@@ -101,8 +101,8 @@ module top # (
         parameter C_UART_STOP = 1,              // UART stop bits {0, 1}.
 
         // Hello message 
-        parameter C_HELLO_MSG = "Hello",
-        parameter C_HELLO_MSG_LEN = 5,
+        parameter C_HELLO_MSG = "Hello World! ",
+        parameter C_HELLO_MSG_LEN = 13,
                 
         // Debug registers.
         parameter C_REG_WIDTH = 4               // Registry register width [bit].
@@ -148,33 +148,41 @@ module top # (
 
 
     // Wires from the UART Rx toward the registry module.
-    wire wRxRegData;
-    wire wRxRegValid;
-    wire wRegRxAck;
+    //wire wRxRegData;
+    //wire wRxRegValid;
+    //wire wRegRxAck;
     
     // Registry mapping wires.
-    wire [C_REG_WIDTH * C_REG_COUNT - 1 : 0] wRegPort;
-    wire [C_REG_WIDTH - 1 : 0] wRegReg [C_REG_COUNT - 1 : 0];    
+    //wire [C_REG_WIDTH * C_REG_COUNT - 1 : 0] wRegPort;
+    //wire [C_REG_WIDTH - 1 : 0] wRegReg [C_REG_COUNT - 1 : 0];    
     
-    // Wires and register from the mirror toward the UART modules.
-    wire wMirSend;
-    wire wMirAck;
-    wire wMirBusy;
-    wire wMirValid;
+    // Wires from the mirror toward the controlling modules.
+    wire wMirBusyTx;
+    wire wMirValidRx;
     wire wMirErrTx;
     wire wMirErrRx;
-    wire [C_UART_DATA_WIDTH - 1 : 0] wMirDataIn;
-    wire [C_UART_DATA_WIDTH - 1 : 0] wMirDataOut;
+    
+    // Wires from the mirror toward the Rx and Tx modules.
+    wire wMirTxSend;
+    wire wMirRxAck;
+    wire [C_UART_DATA_WIDTH - 1 : 0] wMirTxData;
+    
+    // Wires from UART TX module.       
+    wire wTxBusy;
+    wire wTxErr;
+    
+    // Wires from UART Rx module.
+    wire wRxValid;
+    wire [C_UART_DATA_WIDTH - 1 : 0] wRxData;
+    wire wRxErr;
     
     // Wires from the Hello module to the mirror one.
-    wire wHelloSend;
     wire wHelloBusy;
+    wire wHelloSend;
     wire [C_UART_DATA_WIDTH - 1 : 0] wHelloData;
-    wire wHelloErr;
-    
         
     // Debug.
-    wire [C_UART_DATA_WIDTH - 1 : 0] wRxDataWord;
+    //wire [C_UART_DATA_WIDTH - 1 : 0] wRxDataWord;
     
 
     // =========================================================================
@@ -248,10 +256,11 @@ module top # (
     ) URx (
         .rstb(wSysRstb),
         .clk(wSysClk),
-        .valid(wMirValid),
-        .ack(wMirAck),
-        .data(wMirDataIn),
-        .error(wMirErrRx),
+        
+        .valid(wRxValid),
+        .ack(wMirRxAck),
+        .data(wRxData),
+        .error(wRxErr),
         .rx(UART_Rx)
     );    
 
@@ -265,10 +274,11 @@ module top # (
     ) UTx (
         .rstb(wSysRstb),
         .clk(wSysClk),
-        .busy(wMirBusy),
-        .send(wMirSend),
-        .data(wMirDataOut),
-        .error(wMirErrTx),
+        
+        .busy(wTxBusy),
+        .send(wMirTxSend),
+        .data(wMirTxData),
+        .error(wTxErr),
         .tx(UART_Tx)
     );    
 
@@ -281,28 +291,28 @@ module top # (
         .enable(wSw[0]),    // sw[0] controls the mirror module.
         
         // IOs pass-through of the UART_Rx IOs.
-        .rxValid(wRxRegValid),
-        .rxAck(wRegRxAck),
-        .rxData(wRxRegData),
-        .rxErr(),
+        .validRx(),
+        .ackRx(),
+        .dataRx(),
+        .errRx(),
         
-        // IOs pass-through of the UART_Tx IOs
-        .txBusy(wHelloBusy),
-        .txSend(wHelloSend),
-        .txData(wHelloData),
-        .txErr(wHelloErr),
+        // IOs pass-through from/to the UART_Tx.
+        .busyTx(wMirBusy),
+        .sendTx(wHelloSend),
+        .dataTx(wHelloData),
+        .errTx(wMirErrTx),
         
         // IOs toward the UART_Rx module.
-        .valid(wMirValid),
-        .ack(wMirAck),
-        .dataIn(wMirDataIn),
-        .errRx(wMirErrRx),
+        .rxValid(wRxValid),
+        .rxAck(wMirRxAck),
+        .rxData(wRxData),
+        .rxErr(wRxErr),
         
         // IOs toward the UART_Tx module.
-        .busy(wMirBusy),
-        .send(wMirSend),
-        .dataOut(wMirDataOut),
-        .errTx(wMirErrTx)
+        .txBusy(wTxBusy),
+        .txSend(wMirTxSend),
+        .txData(wMirTxData),
+        .txErr(wTxErr)
     ); 
     
     // UART hello module (used for debug).
@@ -314,15 +324,15 @@ module top # (
         .rstb(wSysRstb),
         .clk(wSysClk),
         
-        // IOs pass-through of the UART_Rx IOs.
-        .send(wBtn[0]),
-        .busy(),
+        // IOs control.
+        .send(wBtn[0] && ~wHelloBusy),
+        .busy(wHelloBusy),
                         
-        // IOs pass-through of the UART_Tx IOs
-        .txBusy(wHelloBusy),
+        // IOs toward the UART mirror.
+        .txBusy(wMirBusy),
         .txSend(wHelloSend),
         .txData(wHelloData),
-        .txErr(wHelloErr)
+        .txErr(wMirErrTx)
     );    
     
 
@@ -365,14 +375,12 @@ module top # (
   
     // Connect registers 0,1,2,3 LSBs to RGB LEDs.  
     //assign ledRGB = {wRegReg[3][2:0], wRegReg[2][2:0], wRegReg[1][2:0], wRegReg[0][2:0]};
-    assign ledRGB[11 : 8] = wSw;
-    assign ledRGB[7 : 0] = wRxDataWord; 
-    
-    
+    //assign ledRGB[11 : 8] = wSw;
+    assign ledRGB[7 : 0] = wRxData; 
+
     // Blinking LED register.
     reg [23:0] rCount = 0;
-    
-    
+     
     // Simple counter process.
     always @ (posedge(wSysClk)) begin
         rCount <= rCount + 1;

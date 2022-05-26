@@ -64,7 +64,7 @@ module  UART_Hello # (
         input send,             // Send command.
         output reg busy,        // Busy status.
         
-        // IOs (passive) of the UART_Tx IOs
+        // IOs toward a Tx module.
         input txBusy,
         output reg txSend,
         output [C_UART_DATA_WIDTH - 1 : 0] txData,

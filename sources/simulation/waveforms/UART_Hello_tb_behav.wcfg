@@ -12,49 +12,57 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="134.300001 us"></ZoomEndTime>
-      <Cursor1Time time="1,000.000000 us"></Cursor1Time>
+      <ZoomEndTime time="101.000001 us"></ZoomEndTime>
+      <Cursor1Time time="158.000001 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="271"></NameColumnWidth>
-      <ValueColumnWidth column_width="110"></ValueColumnWidth>
+      <ValueColumnWidth column_width="104"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="41" />
+   <WVObjectSize size="33" />
    <wvobject type="divider" fp_name="divider200">
       <obj_property name="label">Parameters</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/C_CLK_FRQ" type="array">
-      <obj_property name="ElementShortName">C_CLK_FRQ[31:0]</obj_property>
-      <obj_property name="ObjectShortName">C_CLK_FRQ[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/C_CLK_JTR" type="array">
-      <obj_property name="ElementShortName">C_CLK_JTR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">C_CLK_JTR[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/C_CLK_PERIOD" type="other">
-      <obj_property name="ElementShortName">C_CLK_PERIOD</obj_property>
-      <obj_property name="ObjectShortName">C_CLK_PERIOD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/C_UART_RATE" type="array">
-      <obj_property name="ElementShortName">C_UART_RATE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">C_UART_RATE[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/C_UART_DATA_WIDTH" type="array">
-      <obj_property name="ElementShortName">C_UART_DATA_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">C_UART_DATA_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/C_UART_STOP" type="array">
-      <obj_property name="ElementShortName">C_UART_STOP[31:0]</obj_property>
-      <obj_property name="ObjectShortName">C_UART_STOP[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/C_UART_PARITY" type="array">
-      <obj_property name="ElementShortName">C_UART_PARITY[31:0]</obj_property>
-      <obj_property name="ObjectShortName">C_UART_PARITY[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/C_UART_PERIOD" type="other">
-      <obj_property name="ElementShortName">C_UART_PERIOD</obj_property>
-      <obj_property name="ObjectShortName">C_UART_PERIOD</obj_property>
+   <wvobject fp_name="group210" type="group">
+      <obj_property name="label">Parameters</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/UART_Hello_tb/C_CLK_FRQ" type="array">
+         <obj_property name="ElementShortName">C_CLK_FRQ[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_CLK_FRQ[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/UART_Hello_tb/C_CLK_JTR" type="array">
+         <obj_property name="ElementShortName">C_CLK_JTR[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_CLK_JTR[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/UART_Hello_tb/C_CLK_PERIOD" type="other">
+         <obj_property name="ElementShortName">C_CLK_PERIOD</obj_property>
+         <obj_property name="ObjectShortName">C_CLK_PERIOD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/UART_Hello_tb/C_UART_RATE" type="array">
+         <obj_property name="ElementShortName">C_UART_RATE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_UART_RATE[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/UART_Hello_tb/C_UART_DATA_WIDTH" type="array">
+         <obj_property name="ElementShortName">C_UART_DATA_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_UART_DATA_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/UART_Hello_tb/C_UART_STOP" type="array">
+         <obj_property name="ElementShortName">C_UART_STOP[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_UART_STOP[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/UART_Hello_tb/C_UART_PARITY" type="array">
+         <obj_property name="ElementShortName">C_UART_PARITY[31:0]</obj_property>
+         <obj_property name="ObjectShortName">C_UART_PARITY[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/UART_Hello_tb/C_UART_PERIOD" type="other">
+         <obj_property name="ElementShortName">C_UART_PERIOD</obj_property>
+         <obj_property name="ObjectShortName">C_UART_PERIOD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/UART_Hello_tb/seed" type="array">
+         <obj_property name="ElementShortName">seed[31:0]</obj_property>
+         <obj_property name="ObjectShortName">seed[31:0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="/UART_Hello_tb/C_MSG" type="array">
       <obj_property name="ElementShortName">C_MSG[39:0]</obj_property>
@@ -69,10 +77,6 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       <obj_property name="CustomSignalColor">#FF0080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/UART_Hello_tb/seed" type="array">
-      <obj_property name="ElementShortName">seed[31:0]</obj_property>
-      <obj_property name="ObjectShortName">seed[31:0]</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider199">
       <obj_property name="label">Timing</obj_property>

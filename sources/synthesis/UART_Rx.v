@@ -186,9 +186,11 @@ module UART_Rx # (
                 end
             end
 
-            // Error.
+            // Error. Raises the error, the go to IDLE. The flag will stay
+            // High until the reception restarts.
             sERROR: begin
-                rNext <= (ack) ? sIDLE : sERROR;
+                //rNext <= (ack) ? sIDLE : sERROR;
+                rNext <= sIDLE;
             end
         endcase    
     end
@@ -257,7 +259,11 @@ module UART_Rx # (
         valid <= (rState == sVALID) ? 1'b1 : 1'b0;
 
         // Error flag.
-        error <= (rState == sERROR) ? 1'b1 : 1'b0;
+        if (rState == sERROR) error <= 1'b1;
+        else if (rState == sIDLE) error <= error; 
+        else error <= 1'b0;
+        
+        //error <= (rState == sERROR) ? 1'b1 : 1'b0;
     end
     
 endmodule

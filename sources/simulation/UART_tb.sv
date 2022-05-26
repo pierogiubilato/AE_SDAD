@@ -84,11 +84,6 @@ module UART_tb();
     wire [C_UART_DATA_WIDTH - 1 : 0] wMirDataOut;
     
     
-    
-    
-    
-    
-    
     // ==========================================================================
     // ==                                 DUTs                                 ==
     // ==========================================================================
@@ -157,26 +152,26 @@ module UART_tb();
         .enable(1'b1),
         
         // IOs (passive) of the UART_Rx IOs.
-        .rxData(wRxData),
-        .rxValid(wRxValid),
-        .rxAck(rRxAck),
-        .rxErr(wRxErr),
+        .dataRx(wRxData),
+        .validRx(wRxValid),
+        .ackRx(rRxAck),
+        .errRx(wRxErr),
         
         // IOs (passive) of the UART_Tx IOs
-        .txData(),
-        .txSend(),
-        .txBusy(),
-        .txErr(wTx2Err),
+        .dataTx(),
+        .sendTx(),
+        .busyTx(),
+        .errTx(wTx2Err),
         
         // IOs toward the UART_Tx, UART_Rx modules.
-        .busy(wMirBusy),
-        .valid(wMirValid),
-        .dataIn(wMirDataIn),
-        .dataOut(wMirDataOut),
-        .ack(wMirAck),
-        .send(wMirSend),
-        .errTx(wMirErrTx),
-        .errRx(wMirErrRx)
+        .txBusy(wMirBusy),
+        .txSend(wMirSend),
+        .rxValid(wMirValid),
+        .rxAck(wMirAck),
+        .rxData(wMirDataIn),
+        .txData(wMirDataOut),
+        .txErr(wMirErrTx),
+        .rxErr(wMirErrRx)
     );        
     
     

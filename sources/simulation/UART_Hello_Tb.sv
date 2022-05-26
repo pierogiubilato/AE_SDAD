@@ -14,6 +14,7 @@
 
 // Testbench.
 module UART_Hello_tb();
+
     
     // ==========================================================================
     // ==                               Parameters                             ==
@@ -119,7 +120,6 @@ module UART_Hello_tb();
     ) DUT_Hello (
         .rstb(rRstb),
         .clk(rClk),
-        .enable(1'b1),
         
         // IOs control.
         .send(rHelloSend),
@@ -136,7 +136,7 @@ module UART_Hello_tb();
     // ==========================================================================
     // ==                            Timing Stimuli                            ==
     // ==========================================================================
-    
+     
     // Initialization sequence.   
     initial begin 
         
@@ -201,24 +201,36 @@ module UART_Hello_tb();
     // ==========================================================================
 
     // Data retriever process interrogating the UART_Rx DUT
-    always@ (wRxValid, rClk) begin
+    always@ (wRxValid) begin
         
+        // Time display format.    
+        $timeformat(-9, 0, " ns");
+                
         // Check if the DUT has valid data, read them.
         if (wRxValid == 1'b1) begin
+            
+            $display("\nValid found: %t", $time);
             
             // Wait for a clock to occur.
             @(posedge rClk);
             
             // Store the received data.
             rRxData <= wRxData;
+            $display("Data latched: %t", $time);
             
             // Assert the ack.
             rRxAck <= 1'b1;
+            $display("Ack asserted: %t", $time);
         
             // Wait for the valid to drop and reset the ack.
             wait(wRxValid == 1'b0);
+            $display("Valid released: %t", $time);
+        
+            // Release ack.
             @(posedge rClk);
             #1 rRxAck <= 1'b0;
+            $display("Ack released: %t", $time);
+        
         end
 
         // Wait a random amount of time. This on purpose will make missing some

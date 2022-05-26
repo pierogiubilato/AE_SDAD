@@ -60,33 +60,33 @@ module  UART_Mirror # (
     ) (
         
         // IOs
-        input rstb,             // Reset, active low.
-        input clk,              // Reference input clock.
-        input enable,           // Enable the mirroring.
+        input rstb,                 // Reset, active low.
+        input clk,                  // Reference input clock.
+        input enable,               // Enable the mirroring.
             
         // IOs (passive) of the UART_Rx IOs.
-        output rxValid,
-        input rxAck,
-        output [C_UART_DATA_WIDTH - 1 : 0] rxData,
-        output rxErr,
+        output validRx,
+        input ackRx,
+        output [C_UART_DATA_WIDTH - 1 : 0] dataRx,
+        output errRx,
         
         // IOs (passive) of the UART_Tx IOs
-        output txBusy,
-        input txSend,
-        input [C_UART_DATA_WIDTH - 1 : 0] txData,
-        output txErr,
+        output busyTx,
+        input sendTx,
+        input [C_UART_DATA_WIDTH - 1 : 0] dataTx,
+        output errTx,
             
         // IOs toward the UART_Rx module.
-        input valid,            // Valid from the Rx module.
-        output ack,             // Acknowledge flag toward the Rx Module.
-        input [C_UART_DATA_WIDTH - 1 : 0] dataIn,   // UART data IN.
-        input errRx,            // Error from Rx module.
+        input rxValid,              // Valid from the Rx module.
+        output rxAck,               // Acknowledge flag toward the Rx Module.
+        input [C_UART_DATA_WIDTH - 1 : 0] rxData,   // UART data IN.
+        input rxErr,                // Error from Rx module.
         
         // IOs toward the UART_Tx module.
-        input busy,             // Busy from the Tx module
-        output send,            // Send flag to the Tx module.
-        output [C_UART_DATA_WIDTH - 1 : 0] dataOut, // UART data OUT.
-        input errTx             // Error from Tx module.
+        input txBusy,               // Busy from the Tx module
+        output txSend,              // Send flag to the Tx module.
+        output [C_UART_DATA_WIDTH - 1 : 0] txData, // UART data OUT.
+        input txErr                 // Error from Tx module.
         
     );
     
@@ -118,20 +118,23 @@ module  UART_Mirror # (
     // ==                      Asynchronous assignments                       ==
     // =========================================================================
 
-    // Bypass module if not enabled.
-    assign ack = (enable) ? rMirAck : rxAck;
-    assign send = (enable) ? rMirSend : txSend;
-    assign txBusy = (enable) ? 1'b1 : busy;
-    assign txErr = (enable) ? 1'b0 : errTx;
-    assign dataOut = (enable) ? dataIn : txData;
+    // To/from Rx/Tx modules.
+    assign validRx = rxValid;
+    assign rxAck = (enable) ? rMirAck : ackRx;
+    assign busyTx = (enable) ? 1'b1 : txBusy;
+    assign txSend = (enable) ? rMirSend : sendTx;
+    assign errTx = (enable) ? 1'b0 : txErr;
+    
+    // Data mirroring.
+    assign txData = (enable) ? rxData : dataTx;
 
     // Fixed bridges.
-    assign rxData = dataIn;
-    assign rxErr = errRx;
+    assign dataRx = rxData;
+    assign errRx = rxErr;
 
 
 
-       // =========================================================================
+    // =========================================================================
     // ==                        State Machine Logic                          ==
     // =========================================================================
 
@@ -149,7 +152,7 @@ module  UART_Mirror # (
     end
 
     // SM next state logic.
-    always @(rState, valid) begin
+    always @(rState, rxValid) begin
 
         // Failsafe assignment (no state change).
         rNext <= rState;
@@ -159,7 +162,7 @@ module  UART_Mirror # (
 
             // Idle. Jump to ack if valid goes high.
             sIDLE: begin
-                rNext <= (valid == 1'b1) ? sACK : sIDLE; 
+                rNext <= (rxValid == 1'b1) ? sACK : sIDLE; 
             end
 
             // Just use this state to issue single-clock flags.
@@ -169,7 +172,7 @@ module  UART_Mirror # (
 
             // Wait for the Rx module to reset.
             sWAIT: begin
-                rNext <= (valid == 1'b0) ? sIDLE : sWAIT;
+                rNext <= (rxValid == 1'b0) ? sIDLE : sWAIT;
             end
 
         endcase    
