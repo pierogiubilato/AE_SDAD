@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="sinegen_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="sinegen_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000000 ms"></ZoomStartTime>
+      <ZoomEndTime time="1,812.078549851 ms"></ZoomEndTime>
+      <Cursor1Time time="1,150.000000000 ms"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="237"></NameColumnWidth>
+      <ValueColumnWidth column_width="88"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="19" />
+   <wvobject fp_name="/sinegen_tb/C_CLK_FRQ" type="array">
+      <obj_property name="ElementShortName">C_CLK_FRQ[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_CLK_FRQ[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/C_CLK_JTR" type="array">
+      <obj_property name="ElementShortName">C_CLK_JTR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_CLK_JTR[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/C_CLK_PERIOD" type="other">
+      <obj_property name="ElementShortName">C_CLK_PERIOD</obj_property>
+      <obj_property name="ObjectShortName">C_CLK_PERIOD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/seed" type="array">
+      <obj_property name="ElementShortName">seed[31:0]</obj_property>
+      <obj_property name="ObjectShortName">seed[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider859">
+      <obj_property name="label">DUT localparam</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/DUT/C_PHASE_STEPS" type="array">
+      <obj_property name="ElementShortName">C_PHASE_STEPS[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_PHASE_STEPS[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/DUT/C_PHASE_STEPS_WIDTH" type="array">
+      <obj_property name="ElementShortName">C_PHASE_STEPS_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_PHASE_STEPS_WIDTH[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/DUT/C_STEP_INTERVAL" type="array">
+      <obj_property name="ElementShortName">C_STEP_INTERVAL[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_STEP_INTERVAL[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/DUT/C_STEP_INTERVAL_WIDTH" type="array">
+      <obj_property name="ElementShortName">C_STEP_INTERVAL_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_STEP_INTERVAL_WIDTH[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider211">
+      <obj_property name="label">Timing</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/rRstb" type="logic">
+      <obj_property name="ElementShortName">rRstb</obj_property>
+      <obj_property name="ObjectShortName">rRstb</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/rClk" type="logic">
+      <obj_property name="ElementShortName">rClk</obj_property>
+      <obj_property name="ObjectShortName">rClk</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider211">
+      <obj_property name="label">IOs</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/rFrq" type="array">
+      <obj_property name="ElementShortName">rFrq[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rFrq[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/wData" type="array">
+      <obj_property name="ElementShortName">wData[7:0]</obj_property>
+      <obj_property name="ObjectShortName">wData[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">0</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_FIXED</obj_property>
+      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
+      <obj_property name="AnalogYRRangeMax">255.000000</obj_property>
+      <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_LINEAR</obj_property>
+      <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
+      <obj_property name="AnalogHorizLine">0.000000</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider864">
+      <obj_property name="label">DUT inside</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/DUT/frq" type="array">
+      <obj_property name="ElementShortName">frq[13:0]</obj_property>
+      <obj_property name="ObjectShortName">frq[13:0]</obj_property>
+      <obj_property name="CustomSignalColor">#DCDCDC</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/DUT/rPhase" type="array">
+      <obj_property name="ElementShortName">rPhase[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rPhase[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#DCDCDC</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sinegen_tb/DUT/rAccu" type="array">
+      <obj_property name="ElementShortName">rAccu[18:0]</obj_property>
+      <obj_property name="ObjectShortName">rAccu[18:0]</obj_property>
+      <obj_property name="CustomSignalColor">#DCDCDC</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+</wave_config>

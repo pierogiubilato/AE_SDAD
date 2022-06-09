@@ -93,9 +93,11 @@ module top # (
         // Timing.
         parameter C_SYSCLK_FRQ = 100_000_000,   // System clock frequency [Hz].
         parameter C_DBC_INTERVAL = 10,          // Debouncing interval [ms].              
+        parameter C_BLINK_PERIOD = 100,         // Blinking period [ms].              
         
         // UART properties.
-        parameter C_UART_RATE = 115_200,        // UART word width.
+        //parameter C_UART_RATE = 115_200,        // UART BAUD rate.
+        parameter C_UART_RATE = 921_600,        // UART BAUD rate.
         parameter C_UART_DATA_WIDTH = 8,        // UART word width.
         parameter C_UART_PARITY = 0,            // UART parity bits {0, 1, 2}.
         parameter C_UART_STOP = 1,              // UART stop bits {0, 1}.
@@ -119,6 +121,13 @@ module top # (
         output [3:0] led,   
         output [11:0] ledRGB,
         
+        // Reference outputs.
+        output PWM_Out,                 // Programmable PWM reference.
+        
+        // UART iterface (reference direction is controller toward FPGA).
+        output UART_Rx_cpy,             // Data from the controller toward the FPGA.
+        output UART_Tx_cpy,             // Data from the FPGA toward the controller.
+                
         // UART iterface (reference direction is controller toward FPGA).
         input UART_Rx,              // Data from the controller toward the FPGA.
         output UART_Tx              // Data from the FPGA toward the controller.
@@ -156,6 +165,11 @@ module top # (
     //wire [C_REG_WIDTH * C_REG_COUNT - 1 : 0] wRegPort;
     //wire [C_REG_WIDTH - 1 : 0] wRegReg [C_REG_COUNT - 1 : 0];    
     
+    
+    // -------------------------------------------------------------------------
+    // --                           UART wiring                               --
+    // -------------------------------------------------------------------------
+    
     // Wires from the mirror toward the controlling modules.
     wire wMirBusyTx;
     wire wMirValidRx;
@@ -181,10 +195,21 @@ module top # (
     wire wHelloSend;
     wire [C_UART_DATA_WIDTH - 1 : 0] wHelloData;
         
-    // Debug.
-    //wire [C_UART_DATA_WIDTH - 1 : 0] wRxDataWord;
+    // UART
+    wire wRx;
+    wire wTx;
     
-
+    
+    // -------------------------------------------------------------------------
+    // --                      DEBUG / Facilities wiring                      --
+    // -------------------------------------------------------------------------
+    
+    // Data from the sinewave generator.
+    wire [7 : 0] wSineDAta;
+    
+    // DEBUG blinker.
+    wire wBlink;
+    
     // =========================================================================
     // ==                            I/O buffering                            ==
     // =========================================================================
@@ -261,7 +286,7 @@ module top # (
         .ack(wMirRxAck),
         .data(wRxData),
         .error(wRxErr),
-        .rx(UART_Rx)
+        .rx(wRx)
     );    
 
     // UART Tx.
@@ -279,7 +304,7 @@ module top # (
         .send(wMirTxSend),
         .data(wMirTxData),
         .error(wTxErr),
-        .tx(UART_Tx)
+        .tx(wTx)
     );    
 
     // UART mirroring module (used for debug).
@@ -336,6 +361,46 @@ module top # (
     );    
     
 
+    // =========================================================================
+    // ==                   SINE generator and PWM modulator                  ==
+    // =========================================================================
+    
+    // SINE generator.
+    sinegen # (
+        .C_CLK_FRQ(C_SYSCLK_FRQ)
+    ) SINE (
+        .rstb(wSysRstb),
+		.clk(wSysClk),
+		.frq({1'b0, wRxData, 7'b0000000}),    // Use Rx line to set the frequency, multiplied by 128.
+		.data(wSineData)  // Connects the output directly to the PMOD pin.  
+    );
+    
+    
+    // PWM modulator.
+    pwm # (
+        .C_CLK_FRQ(C_SYSCLK_FRQ),
+        .C_LEVEL_WIDTH(8)
+    ) PWM (
+        .rstb(wSysRstb),
+		.clk(wSysClk),
+		.level(wSineData),    // Use Rx line to set the level.
+		.out(PWM_Out)         // Connects the output directly to the PMOD pin.  
+    );
+        
+    
+    // =========================================================================
+    // ==                           DEBUG services                            ==
+    // =========================================================================
+    
+    blinker #(
+        .C_CLK_FRQ(C_SYSCLK_FRQ),
+        .C_PERIOD(C_BLINK_PERIOD)
+    ) BLINK (
+        .rstb(wSysRstb),
+        .clk(wSysClk),
+        .out(wBlink)
+    );
+      
     
     // =========================================================================
     // ==                          DEBUG Registry                             ==
@@ -367,8 +432,16 @@ module top # (
     // ==                              Routing                                ==
     // =========================================================================
     
+    // UART.
+    assign wRx = UART_Rx;
+    assign UART_Tx = wTx;
+    
+    // Debug UART copies.
+    assign UART_Rx_cpy = wRx;
+    assign UART_Tx_cpy = wTx;
+    
     // LEDs.
-    assign led[3] = rCount[23];     // Blinking LED.
+    assign led[3] = wBlink;         // Blinking LED.
     assign led[1] = wBtn[1];
     assign led[2] = wBtn[2];
     assign led[0] = wSw[0];         // UART Mirror enabled.
@@ -378,12 +451,12 @@ module top # (
     //assign ledRGB[11 : 8] = wSw;
     assign ledRGB[7 : 0] = wRxData; 
 
-    // Blinking LED register.
-    reg [23:0] rCount = 0;
+//    // Blinking LED register.
+//    reg [23:0] rCount = 0;
      
-    // Simple counter process.
-    always @ (posedge(wSysClk)) begin
-        rCount <= rCount + 1;
-    end
+//    // Simple counter process.
+//    always @ (posedge(wSysClk)) begin
+//        rCount <= rCount + 1;
+//    end
 
 endmodule

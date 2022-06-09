@@ -9,9 +9,7 @@
 \#############################################################################*/
 
 // INFO
-// The pwm module generates a pulse train which duty cycle corresponds to the
-// input 'level' value. The 'C_MIN_PULSE' defines the minimum duration of a
-// single pulse.
+// The blinker module generates a 50% duty cycle square-wave of a given period.
 
 
 // -----------------------------------------------------------------------------
@@ -19,8 +17,8 @@
 // -----------------------------------------------------------------------------
 //
 // C_CLK_FRQ:       frequency of the clock in [cycles per second] {100000000}. 
-// C_LEVEL_WIDTH:   the 'level' width, indicating the number of bits used to
-//                  calculate the pulse duty cycle.
+// C_PERIOD:        the wave period, expressed in [ms].
+
 
 // -----------------------------------------------------------------------------
 // --                                I/O PORTS                                --
@@ -28,34 +26,50 @@
 //
 // rstb:            INPUT, synchronous reset, ACTIVE LOW. 
 // clk:             INPUT, master clock.
-// level:          	INPUT, the signal indicating the duty cycle. The signal duty
-//                  cycle will result equal to 'level / (2^C_LEVEL_WIDTH - 1)'.
-// out:           	OUTPUT: the pulsed signal.
+// out:           	OUTPUT: the signal toward the fabric.
 
 
 // Tool timescale.
 `timescale 1 ns / 1 ps
 
 // Behavioural.
-module  pwm # (
-		parameter C_CLK_FRQ = 100000000,  	// Clock frequency [Hz].
-        parameter C_LEVEL_WIDTH = 8         // Level range.        
+module  debounce # (
+		parameter C_CLK_FRQ = 100_000_000, 	// Clock frequency [Hz].
+		parameter C_INTERVAL = 100   		// Wait interval [ms].
 	) (
 		input rstb,
 		input clk,
-		input [C_LEVEL_WIDTH-1 : 0] level,  // The modulation level.
-		output reg out		                // The modulated output.
-	);  
+		output reg out		// Output to fabric.
+	);
 
+
+	// =========================================================================
+    // ==                       Parameters derivation                         ==
+    // =========================================================================
+
+    // Prepare the counter size so that full counting would take the C_PERIOD to
+    // wait for. By checking the counter MSB, it will be equivalent
+	// to wait for half period time. 
+    localparam C_CYCLES = 2 * C_CLK_FRQ * C_PERIOD / 1000;
+    localparam C_CYCLES_WIDTH = $clog2(C_CYCLES);
+   
 
    	// =========================================================================
     // ==                        Registers and wires                          ==
     // =========================================================================
 
 	// Counters.
-	reg [C_LEVEL_WIDTH - 1 : 0] rCount;
+	reg [C_CYCLES_WIDTH - 1 : 0] rCount;
 	
+	
+	// =========================================================================
+    // ==                      Asynchronous assignments                       ==
+    // =========================================================================
 
+	// XOR of the thwo FF to generate counter reset signal.
+	assign out = rCount[C_CYCLES_WIDTH - 1];
+	
+	
 	// =========================================================================
     // ==                        Synchronous counters                         ==
     // =========================================================================
@@ -63,18 +77,14 @@ module  pwm # (
 	// Increments the counter if the signal is stable
 	always @ (posedge clk) begin
 		
-		// Reset or count.
-    	rCount <= (rstb ==  1'b0) ? { C_LEVEL_WIDTH {1'b0} } : rCount + 1;
-    end
+		// Reset the counter.
+		if (rstb ==  1'b0 || wClear == 1'b1) begin
+			rCount <= { C_CYCLES_WIDTH {1'b0} };
 
-
-	// =========================================================================
-    // ==                        Synchronous outputs                          ==
-    // =========================================================================
-
-	// Set the output high for 'level' clock cycles.
-	always @ (posedge clk) begin
-		out <= (rCount <= level) ? 1'b1 : 1'b0;
+		// Count.
+		end else begin
+			rCount <= rCount + 1;
+		end
 	end
 
 endmodule
