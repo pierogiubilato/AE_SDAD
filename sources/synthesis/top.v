@@ -96,8 +96,8 @@ module top # (
         parameter C_BLINK_PERIOD = 100,         // Blinking period [ms].              
         
         // UART properties.
-        //parameter C_UART_RATE = 115_200,        // UART BAUD rate.
-        parameter C_UART_RATE = 921_600,        // UART BAUD rate.
+        parameter C_UART_RATE = 115_200,        // UART BAUD rate.
+        //parameter C_UART_RATE = 921_600,        // UART BAUD rate.
         parameter C_UART_DATA_WIDTH = 8,        // UART word width.
         parameter C_UART_PARITY = 0,            // UART parity bits {0, 1, 2}.
         parameter C_UART_STOP = 1,              // UART stop bits {0, 1}.
@@ -122,7 +122,8 @@ module top # (
         output [11:0] ledRGB,
         
         // Reference outputs.
-        output PWM_Out,                 // Programmable PWM reference.
+        output PWM_Out_p,                 // Programmable PWM out, positive.
+        output PWM_Out_n,                 // Programmable PWM out, negative.
         
         // UART iterface (reference direction is controller toward FPGA).
         output UART_Rx_cpy,             // Data from the controller toward the FPGA.
@@ -206,6 +207,9 @@ module top # (
     
     // Data from the sinewave generator.
     wire [7 : 0] wSineDAta;
+    
+    // PWM.
+    wire wPWM;
     
     // DEBUG blinker.
     wire wBlink;
@@ -371,7 +375,7 @@ module top # (
     ) SINE (
         .rstb(wSysRstb),
 		.clk(wSysClk),
-		.frq({1'b0, wRxData, 7'b0000000}),    // Use Rx line to set the frequency, multiplied by 128.
+		.frq({16'b0000_0000_0010_0000}),    // Use Rx line to set the frequency, multiplied by 128.
 		.data(wSineData)  // Connects the output directly to the PMOD pin.  
     );
     
@@ -383,8 +387,8 @@ module top # (
     ) PWM (
         .rstb(wSysRstb),
 		.clk(wSysClk),
-		.level(wSineData),    // Use Rx line to set the level.
-		.out(PWM_Out)         // Connects the output directly to the PMOD pin.  
+		.level((wSw[1]) ? wSineData : wRxData),    // Use Rx line to set the level.
+		.out(wPWM)            // Connects the output directly to the PMOD pin.  
     );
         
     
@@ -442,15 +446,20 @@ module top # (
     
     // LEDs.
     assign led[3] = wBlink;         // Blinking LED.
-    assign led[1] = wBtn[1];
-    assign led[2] = wBtn[2];
+    assign led[2] = wBtn[1];
+    assign led[1] = wSw[1];         // Switch between PWM level and sine.
     assign led[0] = wSw[0];         // UART Mirror enabled.
   
+    // PWM Ground.
+    assign PWM_Out_p = wPWM;
+    assign PWM_Out_n = 1'b0;
+    
     // Connect registers 0,1,2,3 LSBs to RGB LEDs.  
     //assign ledRGB = {wRegReg[3][2:0], wRegReg[2][2:0], wRegReg[1][2:0], wRegReg[0][2:0]};
     //assign ledRGB[11 : 8] = wSw;
-    assign ledRGB[7 : 0] = wRxData; 
-
+    //assign ledRGB[7 : 0] = wRxData; 
+    assign ledRGB[7 : 0] = wSineData;
+    
 //    // Blinking LED register.
 //    reg [23:0] rCount = 0;
      

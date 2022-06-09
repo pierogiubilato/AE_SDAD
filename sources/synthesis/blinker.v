@@ -33,13 +33,13 @@
 `timescale 1 ns / 1 ps
 
 // Behavioural.
-module  debounce # (
+module  blinker # (
 		parameter C_CLK_FRQ = 100_000_000, 	// Clock frequency [Hz].
-		parameter C_INTERVAL = 100   		// Wait interval [ms].
+		parameter C_PERIOD = 100   		// Wait interval [ms].
 	) (
 		input rstb,
 		input clk,
-		output reg out		// Output to fabric.
+		output out		
 	);
 
 
@@ -50,7 +50,7 @@ module  debounce # (
     // Prepare the counter size so that full counting would take the C_PERIOD to
     // wait for. By checking the counter MSB, it will be equivalent
 	// to wait for half period time. 
-    localparam C_CYCLES = 2 * C_CLK_FRQ * C_PERIOD / 1000;
+    localparam C_CYCLES = C_CLK_FRQ * C_PERIOD / 1000;
     localparam C_CYCLES_WIDTH = $clog2(C_CYCLES);
    
 
@@ -78,9 +78,9 @@ module  debounce # (
 	always @ (posedge clk) begin
 		
 		// Reset the counter.
-		if (rstb ==  1'b0 || wClear == 1'b1) begin
+		if (rstb ==  1'b0) begin
 			rCount <= { C_CYCLES_WIDTH {1'b0} };
-
+        
 		// Count.
 		end else begin
 			rCount <= rCount + 1;

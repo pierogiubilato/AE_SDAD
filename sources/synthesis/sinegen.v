@@ -44,7 +44,7 @@ module sinegen # (
         input rstb,                 // Reset, active low.
         input clk,                  // Reference input clock.
         input [15 : 0] frq,         // Frequency, units of [1 Hz].
-        output [7 : 0] data         // Sine output.
+        output reg [7 : 0] data         // Sine output.
     );
     
     
@@ -68,7 +68,7 @@ module sinegen # (
     // Create a register(s) set where to store the sine values, and fill it with
     // the pre-calculated steps found in the "sine.mem" file.
     reg	[7:0] rSine [0 : C_PHASE_STEPS - 1];
-    initial $readmemh("sine.mem", rSine);    
+    initial $readmemh("sine.mem", rSine, 0, C_PHASE_STEPS - 1);    
     
     // Phase register, counts from 0 to the sinetable size
     reg [C_PHASE_STEPS_WIDTH - 1 : 0] rPhase;
@@ -86,8 +86,9 @@ module sinegen # (
     // =========================================================================
 
     // Output current sine value.
-    assign data = rSine[rPhase];    
-
+    always@(posedge clk) begin
+        data <= rSine[rPhase];    
+    end
 
     // =========================================================================
     // ==                          Synchronous logic                         ==
